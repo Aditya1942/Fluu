@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "654071625801",
+    "project_id": "modular-temple-285411",
+    "storage_bucket": "modular-temple-285411.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:654071625801:android:93c32686399c2b626d2798",
+        "android_client_info": {
+          "package_name": "com.fluu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "654071625801-9b1od0nghc2sebl1ujjkac105eqog10m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBH4VMHX1OB__jAp6Kwv0BmXN_QMNQVShE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "654071625801-9b1od0nghc2sebl1ujjkac105eqog10m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
