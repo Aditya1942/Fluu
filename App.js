@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import {View, Text} from 'react-native';
+import React, {useState, useEffect} from 'react';
 import {NavigationContainer, useFocusEffect} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -9,54 +8,69 @@ import SignInScreen from './screens/auth/SignInScreen';
 import SignUpScreen from './screens/auth/SignUpScreen';
 import SigninPhoneNumber from './screens/auth/SigninPhoneNumber';
 import {getUserData} from './screens/auth/Storage';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
-const Main = () => {
-  const [isLoggedin, setIsLoggedin] = useState(false);
-
-  const CustomeTab = () => {
-    // useFocusEffect(
-    //   React.useCallback(() => {
-    //     getUserData().then(data => {
-    //       if (data) {
-    //         setIsLoggedin(true);
-    //       }
-    //     });
-    //   }, []),
-    // );
-
-    return (
-      <Tab.Navigator initialRouteName={'Home'}>
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Profile" component={ProfileScreen} />
-      </Tab.Navigator>
-    );
-  };
-  const LoginScreen = () => {
-    return (
-      <Stack.Navigator
-        initialRouteName={'SignIn'}
-        initialParams={{setIsLoggedin: setIsLoggedin}}
-        screenOptions={{headerShown: false}}>
-        <Stack.Screen name="SignIn" component={SignInScreen} />
-        <Stack.Screen name="SignUp" component={SignUpScreen} />
-        <Stack.Screen name="PhoneNumber" component={SigninPhoneNumber} />
-      </Stack.Navigator>
-    );
-  };
+const CustomeTab = () => {
+  return (
+    <Tab.Navigator initialRouteName={'Home'}>
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
+    </Tab.Navigator>
+  );
+};
+const LoginScreen = () => {
   return (
     <Stack.Navigator
-      initialRouteName={isLoggedin ? 'HomeScreen' : 'Login'}
+      initialRouteName={'SignIn'}
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="HomeScreen" component={CustomeTab} />
-      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="SignIn" component={SignInScreen} />
+      <Stack.Screen name="SignUp" component={SignUpScreen} />
+      <Stack.Screen name="PhoneNumber" component={SigninPhoneNumber} />
+    </Stack.Navigator>
+  );
+};
+const MainStack = () => {
+  const [isLoggedin, setIsLoggedin] = useState(true);
+  useEffect(() => {
+    getUserData().then(data => {
+      console.log(data);
+      if (!data) {
+        setIsLoggedin(false); //
+      } else {
+        setIsLoggedin(true); //
+      }
+    });
+  }, []);
+
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      {isLoggedin ? (
+        <Stack.Screen name="Home" component={CustomeTab} />
+      ) : (
+        <Stack.Screen name="Login" component={LoginScreen} />
+      )}
+    </Stack.Navigator>
+  );
+};
+const Main = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName={'HomeScreen'}
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="HomeScreen" component={MainStack} />
     </Stack.Navigator>
   );
 };
 
 const App = () => {
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '654071625801-9b1od0nghc2sebl1ujjkac105eqog10m.apps.googleusercontent.com',
+    });
+  }, []);
   return (
     <NavigationContainer>
       <Main />

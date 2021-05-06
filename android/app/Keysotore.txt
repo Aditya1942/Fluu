@@ -1,0 +1,1 @@
+keytool -genkeypair -v -storetype PKCS12 -keystore my-fluu-key.keystore -alias my-fluu-alias -keyalg RSA -keysize 2048 -validity 10000

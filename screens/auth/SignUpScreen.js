@@ -11,22 +11,6 @@ const SignUpScreen = ({navigation}) => {
         }}
         title="Go To Sign In Page"
       />
-      <View
-        style={{
-          marginTop: 10,
-          flexDirection: 'column',
-          justifyContent: 'space-evenly',
-          height: 200,
-        }}>
-        <Button
-          onPress={() => {
-            navigation.navigate('PhoneNumber');
-          }}
-          title="SignIn Using Phonenumber"
-        />
-        <Button onPress={() => {}} title="SignIn Using Google" />
-        <Button onPress={() => {}} title="SignIn Using Facebook" />
-      </View>
     </View>
   );
 };

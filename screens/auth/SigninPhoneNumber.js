@@ -4,11 +4,6 @@ import auth from '@react-native-firebase/auth';
 import {setUserData} from './Storage';
 
 const SigninPhoneNumber = ({navigation}) => {
-  console.log(navigation);
-  // Set an initializing state whilst Firebase connects
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
-  // If null, no SMS has been sent
   const [PhoneNumber, setPhoneNumber] = useState('');
   const [confirm, setConfirm] = useState(null);
   const [code, setCode] = useState('');
@@ -16,7 +11,9 @@ const SigninPhoneNumber = ({navigation}) => {
     auth().signOut();
     try {
       console.log('PhoneNumber', PhoneNumber);
-      const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+      const confirmation = await auth().signInWithPhoneNumber(
+        `+91 ${phoneNumber}`,
+      );
       console.log('confirmation', confirmation);
       setConfirm(confirmation);
     } catch (error) {
@@ -39,10 +36,12 @@ const SigninPhoneNumber = ({navigation}) => {
     }
   };
   return (
-    <View>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       {!confirm ? (
         <View>
           <TextInput
+            style={{borderWidth: 1, width: 300, marginBottom: 20}}
+            placeholder="Phone Number"
             onChangeText={text => setPhoneNumber(text)}
             value={PhoneNumber}
           />
@@ -55,7 +54,12 @@ const SigninPhoneNumber = ({navigation}) => {
         </View>
       ) : (
         <View>
-          <TextInput onChangeText={text => setCode(text)} value={code} />
+          <TextInput
+            style={{borderWidth: 1, width: 300, marginBottom: 20}}
+            placeholder="OTP"
+            onChangeText={text => setCode(text)}
+            value={code}
+          />
           <Button
             title="Verify Otp"
             onPress={() => {
