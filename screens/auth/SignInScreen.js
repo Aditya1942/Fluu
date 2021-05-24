@@ -1,9 +1,11 @@
 import React from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Text, Button, TouchableOpacity} from 'react-native';
 import {setUserData} from './Storage';
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
+
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const SignInScreen = ({navigation}) => {
   async function onGoogleButtonPress() {
@@ -42,27 +44,20 @@ const SignInScreen = ({navigation}) => {
   }
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>I AM SignIn Page</Text>
+      <Text style={{marginBottom: 10}}>SignIn using Mobile number</Text>
       <Button
         onPress={() => {
-          navigation.navigate('SignUp');
+          navigation.navigate('PhoneNumber');
         }}
-        title="Go To Sign UP Page"
+        title="Sen dOtp"
       />
+      <Text style={{marginVertical: 30}}>Or Continue with </Text>
       <View
         style={{
-          marginTop: 10,
-          flexDirection: 'column',
-          justifyContent: 'space-evenly',
-          height: 200,
+          flexDirection: 'row',
         }}>
-        <Button
-          onPress={() => {
-            navigation.navigate('PhoneNumber');
-          }}
-          title="SignIn Using Phonenumber"
-        />
-        <Button
+        <TouchableOpacity
+          style={{justifyContent: 'center', alignItems: 'center'}}
           onPress={() =>
             onGoogleButtonPress().then(data => {
               console.log('Signed in with Google!', data);
@@ -71,10 +66,17 @@ const SignInScreen = ({navigation}) => {
                 routes: [{name: 'HomeScreen'}],
               });
             })
-          }
-          title="SignIn Using Google"
-        />
-        <Button
+          }>
+          <Icon
+            name="google"
+            style={{paddingHorizontal: 10}}
+            size={50}
+            color={'#ea4335'}
+          />
+          <Text>Google</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{justifyContent: 'center', alignItems: 'center'}}
           onPress={() =>
             onFacebookButtonPress().then(data => {
               console.log('Signed in with Facebook!', data);
@@ -83,9 +85,15 @@ const SignInScreen = ({navigation}) => {
                 routes: [{name: 'HomeScreen'}],
               });
             })
-          }
-          title="SignIn Using Facebook"
-        />
+          }>
+          <Icon
+            name="facebook-square"
+            style={{paddingHorizontal: 10}}
+            size={50}
+            color={'#09386E'}
+          />
+          <Text>FaceBook</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

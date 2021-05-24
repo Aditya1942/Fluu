@@ -16,21 +16,88 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Button
 } from 'react-native';
 import React, {Component} from 'react';
 
+import Button from './Voicebtn';
 import RNFetchBlob from 'rn-fetch-blob';
 
 const styles: any = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: '#455A64',
     flexDirection: 'column',
     alignItems: 'center',
-    width: '100%',
   },
-  recordBtnWrapper:{flexDirection: 'row',justifyContent: 'space-between'},
-  playBtnWrapper:{flexDirection: 'row',justifyContent: 'space-between'}
- 
+  titleTxt: {
+    marginTop: 100,
+    color: 'white',
+    fontSize: 28,
+  },
+  viewRecorder: {
+    marginTop: 40,
+    width: '100%',
+    alignItems: 'center',
+  },
+  recordBtnWrapper: {
+    flexDirection: 'row',
+  },
+  viewPlayer: {
+    marginTop: 60,
+    alignSelf: 'stretch',
+    alignItems: 'center',
+  },
+  viewBarWrapper: {
+    marginTop: 28,
+    marginHorizontal: 28,
+    alignSelf: 'stretch',
+  },
+  viewBar: {
+    backgroundColor: '#ccc',
+    height: 4,
+    alignSelf: 'stretch',
+  },
+  viewBarPlay: {
+    backgroundColor: 'white',
+    height: 4,
+    width: 0,
+  },
+  playStatusTxt: {
+    marginTop: 8,
+    color: '#ccc',
+  },
+  playBtnWrapper: {
+    flexDirection: 'row',
+    marginTop: 40,
+  },
+  btn: {
+    borderColor: 'white',
+    borderWidth: 1,
+  },
+  txt: {
+    color: 'white',
+    fontSize: 14,
+    marginHorizontal: 8,
+    marginVertical: 4,
+  },
+  txtRecordCounter: {
+    marginTop: 32,
+    color: 'white',
+    fontSize: 20,
+    textAlignVertical: 'center',
+    fontWeight: '200',
+    fontFamily: 'Helvetica Neue',
+    letterSpacing: 3,
+  },
+  txtCounter: {
+    marginTop: 12,
+    color: 'white',
+    fontSize: 20,
+    textAlignVertical: 'center',
+    fontWeight: '200',
+    fontFamily: 'Helvetica Neue',
+    letterSpacing: 3,
+  },
 });
 
 interface State {
@@ -85,25 +152,93 @@ class VoiceBkup extends Component<any, State> {
         <Text style={styles.txtRecordCounter}>{this.state.recordTime}</Text>
         <View style={styles.viewRecorder}>
           <View style={styles.recordBtnWrapper}>
-            <Button title={"Record"} onPress={this.onStartRecord}/>
-            <Button title={"Stop"} onPress={this.onStopRecord}/>         
+            <Button
+              style={styles.btn}
+              onPress={this.onStartRecord}
+              textStyle={styles.txt}>
+              Record
+            </Button>
+            <Button
+              style={[
+                styles.btn,
+                {
+                  marginLeft: 12,
+                },
+              ]}
+              onPress={this.onPauseRecord}
+              textStyle={styles.txt}>
+              Pause
+            </Button>
+            <Button
+              style={[
+                styles.btn,
+                {
+                  marginLeft: 12,
+                },
+              ]}
+              onPress={this.onResumeRecord}
+              textStyle={styles.txt}>
+              Resume
+            </Button>
+            <Button
+              style={[styles.btn, {marginLeft: 12}]}
+              onPress={this.onStopRecord}
+              textStyle={styles.txt}>
+              Stop
+            </Button>
           </View>
         </View>
         <View style={styles.viewPlayer}>
           <TouchableOpacity
             style={styles.viewBarWrapper}
             onPress={this.onStatusPress}>
-            {/* <View style={styles.viewBar}>
+            <View style={styles.viewBar}>
               <View style={[styles.viewBarPlay, {width: playWidth}]} />
-            </View> */}
+            </View>
           </TouchableOpacity>
           <Text style={styles.txtCounter}>
             {this.state.playTime} / {this.state.duration}
           </Text>
           <View style={styles.playBtnWrapper}>
-          <Button title={"Play"}onPress={this.onStartPlay}/>
-            <Button title={"Pause"}onPress={this.onPausePlay}/>
-            <Button title={"Stop"}onPress={this.onStopPlay}/>
+            <Button
+              style={styles.btn}
+              onPress={this.onStartPlay}
+              textStyle={styles.txt}>
+              Play
+            </Button>
+            <Button
+              style={[
+                styles.btn,
+                {
+                  marginLeft: 12,
+                },
+              ]}
+              onPress={this.onPausePlay}
+              textStyle={styles.txt}>
+              Pause
+            </Button>
+            <Button
+              style={[
+                styles.btn,
+                {
+                  marginLeft: 12,
+                },
+              ]}
+              onPress={this.onResumePlay}
+              textStyle={styles.txt}>
+              Resume
+            </Button>
+            <Button
+              style={[
+                styles.btn,
+                {
+                  marginLeft: 12,
+                },
+              ]}
+              onPress={this.onStopPlay}
+              textStyle={styles.txt}>
+              Stop
+            </Button>
           </View>
         </View>
       </View>
