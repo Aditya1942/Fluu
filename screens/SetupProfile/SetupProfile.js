@@ -4,9 +4,13 @@ import {Sizes} from '../../const';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import axios from '../../Axios';
 import Voice from '../Voice';
+import {Button} from 'react-native';
+import RNFetchBlob from 'rn-fetch-blob';
 
 const SetupProfile = ({navigation}) => {
   const [ProfilePic, setProfilePic] = useState('');
+  const [VoiceClip, setVoiceClip] = useState('');
+  console.log(ProfilePic);
   const ImageUpload = img => {
     setProfilePic(img.uri);
     const fd = new FormData();
@@ -28,6 +32,26 @@ const SetupProfile = ({navigation}) => {
         console.log(err);
       });
   };
+  const VoiceUpload = voice => {
+    const fd = new FormData();
+    fd.append('file', {
+      uri: voice,
+      name: 'voice.mp4',
+      type: 'application/mp4',
+    });
+    axios
+      .post('/voice.php', fd, {
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+      })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
   const updateProfilePicture = () => {
     let options = {
       // rest of the properties remain same
@@ -35,7 +59,7 @@ const SetupProfile = ({navigation}) => {
     };
     launchCamera(options, response => {
       console.log(response.uri);
-      // ImageUpload(response); // upload image
+      ImageUpload(response); // upload image
     });
   };
   const PrifilePic = () => {
@@ -78,7 +102,16 @@ const SetupProfile = ({navigation}) => {
           }}>
           <Text>Voice</Text>
         </TouchableOpacity>
-        <Voice />
+        <Voice setVoiceClip={setVoiceClip} />
+        <View style={{marginTop: 50}}>
+          <Button
+            onPress={() => {
+              console.log(VoiceClip);
+              VoiceUpload(VoiceClip);
+            }}
+            title="Upload Voice"
+          />
+        </View>
       </View>
     </View>
   );
